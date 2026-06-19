@@ -67,7 +67,8 @@ public class InventoryUpdateService : IInventoryUpdateService
 
     private HookResult OnPlayerSpawn(EventPlayerSpawn @event)
     {
-        IPlayer player = @event.UserIdPlayer;
+        IPlayer? player = @event.UserIdPlayer;
+        if (player == null) return HookResult.Continue;
 
         Core.Scheduler.NextWorldUpdate(() =>
         {

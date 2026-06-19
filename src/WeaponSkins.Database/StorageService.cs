@@ -1,4 +1,3 @@
-using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -42,19 +41,6 @@ public class StorageService
         {
             Logger.LogInformation("Using inherited database storage backend.");
             DatabaseService.Start(Core.Database);
-            Provider = DatabaseService;
-            DatabaseSynchronizeService.Synchronize();
-        }
-        else if (config.StorageBackend == "sqlite")
-        {
-            Logger.LogInformation("Using SQLite storage backend.");
-            var path = Path.Combine(Core.PluginDataDirectory, "weaponskins.db");
-            if (!File.Exists(path))
-            {
-                File.Create(path).Close();
-            }
-
-            DatabaseService.StartSqlite(path);
             Provider = DatabaseService;
             DatabaseSynchronizeService.Synchronize();
         }

@@ -22,7 +22,7 @@ namespace WeaponSkins.Econ;
 public class EconService
 {
     private ISwiftlyCore Core { get; init; }
-    private KVObject Root { get; set; }
+    private KVObject Root { get; set; } = null!;
     private ILogger<EconService> Logger { get; init; }
     private MainConfigModel Config { get; init; }
     private string _PrimaryLanguage { get; set; } = "english";

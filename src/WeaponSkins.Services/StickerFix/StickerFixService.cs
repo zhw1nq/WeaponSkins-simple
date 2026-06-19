@@ -21,13 +21,19 @@ public static class StickerFixService
         Core.Event.OnClientSteamAuthorize += (@event) =>
         {
             var player = Core.PlayerManager.GetPlayer(@event.PlayerId);
-            _stickerHashes[player.SteamID] = new();
+            if (player != null)
+            {
+                _stickerHashes[player.SteamID] = new();
+            }
         };
 
         Core.Event.OnClientDisconnected += (@event) =>
         {
             var player = Core.PlayerManager.GetPlayer(@event.PlayerId);
-            _stickerHashes[player.SteamID] = new();
+            if (player != null)
+            {
+                _stickerHashes[player.SteamID] = new();
+            }
         };
     }
 

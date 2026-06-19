@@ -82,7 +82,8 @@ public class HookInventoryUpdateService : IInventoryUpdateService
 
     private HookResult OnPlayerSpawn(EventPlayerSpawn @event)
     {
-        IPlayer player = @event.UserIdPlayer;
+        IPlayer? player = @event.UserIdPlayer;
+        if (player == null) return HookResult.Continue;
 
         Core.Scheduler.NextWorldUpdate(() =>
         {
@@ -436,9 +437,16 @@ public class HookInventoryUpdateService : IInventoryUpdateService
         item.AttributeList.SetOrAddAttribute("set item texture seed", skin.PaintkitSeed);
         item.AttributeList.SetOrAddAttribute("set item texture wear", skin.PaintkitWear);
 
-        var useLegacy = EconService
-            .WeaponToPaintkits[Core.Helpers.GetClassnameByDefinitionIndex(item.ItemDefinitionIndex)]
-            .Where(p => p.Index == skin.Paintkit).FirstOrDefault().UseLegacyModel;
+        var classname = Core.Helpers.GetClassnameByDefinitionIndex(item.ItemDefinitionIndex);
+        var useLegacy = false;
+        if (classname != null && EconService.WeaponToPaintkits.TryGetValue(classname, out var paintkits))
+        {
+            var pkit = paintkits.FirstOrDefault(p => p.Index == skin.Paintkit);
+            if (pkit != null)
+            {
+                useLegacy = pkit.UseLegacyModel;
+            }
+        }
         weapon.AcceptInputAsync("SetBodygroup", value: $"body,{(useLegacy ? 1 : 0)}");
 
         if (skin.Quality == EconItemQuality.StatTrak)

@@ -98,26 +98,26 @@ public class NativeService
     public required IUnmanagedFunction<CreateCEconItemDelegate> CreateCEconItem { get; init; }
     public required IUnmanagedFunction<AddObjectDelegate> SOCache_AddObject { get; init; }
     public required IUnmanagedFunction<RemoveObjectDelegate> SOCache_RemoveObject { get; init; }
-    public required IUnmanagedFunction<SOCreatedDelegate> CPlayerInventory_SOCreated { get; init; }
-    public required IUnmanagedFunction<SOCreatedDelegate_Linux> CPlayerInventory_SOCreated_Linux { get; init; }
-    public required IUnmanagedFunction<SOUpdatedDelegate> CPlayerInventory_SOUpdated { get; init; }
-    public required IUnmanagedFunction<SOUpdatedDelegate_Linux> CPlayerInventory_SOUpdated_Linux { get; init; }
-    public required IUnmanagedFunction<SODestroyedDelegate> CPlayerInventory_SODestroyed { get; init; }
-    public required IUnmanagedFunction<SODestroyedDelegate_Linux> CPlayerInventory_SODestroyed_Linux { get; init; }
-    public required IUnmanagedFunction<SOCacheSubscribedDelegate> CPlayerInventory_SOCacheSubscribed { get; init; }
+    public IUnmanagedFunction<SOCreatedDelegate>? CPlayerInventory_SOCreated { get; set; }
+    public IUnmanagedFunction<SOCreatedDelegate_Linux>? CPlayerInventory_SOCreated_Linux { get; set; }
+    public IUnmanagedFunction<SOUpdatedDelegate>? CPlayerInventory_SOUpdated { get; set; }
+    public IUnmanagedFunction<SOUpdatedDelegate_Linux>? CPlayerInventory_SOUpdated_Linux { get; set; }
+    public IUnmanagedFunction<SODestroyedDelegate>? CPlayerInventory_SODestroyed { get; set; }
+    public IUnmanagedFunction<SODestroyedDelegate_Linux>? CPlayerInventory_SODestroyed_Linux { get; set; }
+    public IUnmanagedFunction<SOCacheSubscribedDelegate>? CPlayerInventory_SOCacheSubscribed { get; set; }
 
-    public required IUnmanagedFunction<SOCacheSubscribedDelegate_Linux> CPlayerInventory_SOCacheSubscribed_Linux
+    public IUnmanagedFunction<SOCacheSubscribedDelegate_Linux>? CPlayerInventory_SOCacheSubscribed_Linux
     {
         get;
-        init;
+        set;
     }
 
-    public required IUnmanagedFunction<SOCacheUnsubscribedDelegate> CPlayerInventory_SOCacheUnsubscribed { get; init; }
+    public IUnmanagedFunction<SOCacheUnsubscribedDelegate>? CPlayerInventory_SOCacheUnsubscribed { get; set; }
 
-    public required IUnmanagedFunction<SOCacheUnsubscribedDelegate_Linux> CPlayerInventory_SOCacheUnsubscribed_Linux
+    public IUnmanagedFunction<SOCacheUnsubscribedDelegate_Linux>? CPlayerInventory_SOCacheUnsubscribed_Linux
     {
         get;
-        init;
+        set;
     }
 
     public required IUnmanagedFunction<GetItemInLoadoutDelegate> CPlayerInventory_GetItemInLoadout { get; init; }
@@ -257,7 +257,7 @@ public class NativeService
 
         if (IsWindows)
         {
-            CPlayerInventory_SOCacheSubscribed.AddHook(next =>
+            CPlayerInventory_SOCacheSubscribed?.AddHook(next =>
             {
                 unsafe
                 {
@@ -281,7 +281,7 @@ public class NativeService
                 }
             });
 
-            CPlayerInventory_SOCacheUnsubscribed.AddHook(next =>
+            CPlayerInventory_SOCacheUnsubscribed?.AddHook(next =>
             {
                 unsafe
                 {
@@ -306,7 +306,7 @@ public class NativeService
         }
         else
         {
-            CPlayerInventory_SOCacheSubscribed_Linux.AddHook(next =>
+            CPlayerInventory_SOCacheSubscribed_Linux?.AddHook(next =>
             {
                 return (pInventory,
                     soid1,
@@ -328,7 +328,7 @@ public class NativeService
                 };
             });
 
-            CPlayerInventory_SOCacheUnsubscribed_Linux.AddHook(next =>
+            CPlayerInventory_SOCacheUnsubscribed_Linux?.AddHook(next =>
             {
                 return (pInventory,
                     soid1,
@@ -401,11 +401,11 @@ public class NativeService
         {
             if (IsWindows)
             {
-                CPlayerInventory_SOCreated.CallOriginal(inventory.Address, &soid, item.Address, 4);
+                CPlayerInventory_SOCreated?.CallOriginal(inventory.Address, &soid, item.Address, 4);
             }
             else
             {
-                CPlayerInventory_SOCreated_Linux.CallOriginal(inventory.Address, soid.Part1, soid.Part2, item.Address,
+                CPlayerInventory_SOCreated_Linux?.CallOriginal(inventory.Address, soid.Part1, soid.Part2, item.Address,
                     4);
             }
         }
@@ -419,11 +419,11 @@ public class NativeService
         {
             if (IsWindows)
             {
-                CPlayerInventory_SOUpdated.CallOriginal(inventory.Address, &soid, item.Address, 4);
+                CPlayerInventory_SOUpdated?.CallOriginal(inventory.Address, &soid, item.Address, 4);
             }
             else
             {
-                CPlayerInventory_SOUpdated_Linux.CallOriginal(inventory.Address, soid.Part1, soid.Part2, item.Address,
+                CPlayerInventory_SOUpdated_Linux?.CallOriginal(inventory.Address, soid.Part1, soid.Part2, item.Address,
                     4);
             }
         }
@@ -437,11 +437,11 @@ public class NativeService
         {
             if (IsWindows)
             {
-                CPlayerInventory_SODestroyed.CallOriginal(inventory.Address, &soid, item.Address, 4);
+                CPlayerInventory_SODestroyed?.CallOriginal(inventory.Address, &soid, item.Address, 4);
             }
             else
             {
-                CPlayerInventory_SODestroyed_Linux.CallOriginal(inventory.Address, soid.Part1, soid.Part2, item.Address,
+                CPlayerInventory_SODestroyed_Linux?.CallOriginal(inventory.Address, soid.Part1, soid.Part2, item.Address,
                     4);
             }
         }

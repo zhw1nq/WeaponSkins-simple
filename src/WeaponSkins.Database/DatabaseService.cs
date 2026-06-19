@@ -6,7 +6,6 @@ using FluentMigrator.Runner.VersionTableInfo;
 
 using FreeSql;
 
-using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -19,7 +18,7 @@ namespace WeaponSkins.Database;
 
 public partial class DatabaseService : IStorageProvider
 {
-    private IFreeSql fsql { get; set; }
+    private IFreeSql fsql { get; set; } = null!;
     private ISwiftlyCore Core { get; set; }
 
     public string Name => "WeaponSkins.Database";
@@ -38,7 +37,6 @@ public partial class DatabaseService : IStorageProvider
         {
             "mysql" => DataType.MySql,
             "postgresql" => DataType.PostgreSQL,
-            "sqlite" => DataType.Sqlite,
             _ => throw new Exception("Unsupported database driver."),
         };
         var conn = dbService.GetConnection("weaponskins");
@@ -47,12 +45,6 @@ public partial class DatabaseService : IStorageProvider
         fsql = GetBuilder(protocol, connString).Build();
 
         RunMigrations(conn, protocol);
-    }
-
-    public void StartSqlite(string path)
-    {
-        fsql = GetSqliteBuilder(path).Build();
-        RunMigrations(new SqliteConnection($"Data Source={path}"), DataType.Sqlite);
     }
 
     private void RunMigrations(IDbConnection dbConnection,
@@ -70,10 +62,6 @@ public partial class DatabaseService : IStorageProvider
                 {
                     rb.AddPostgres();
                 }
-                else if (protocol == DataType.Sqlite)
-                {
-                    rb.AddSQLite();
-                }
                 else throw new Exception("Unsupported database type.");
 
                 rb.WithGlobalConnectionString(dbConnection.ConnectionString).ScanIn(typeof(DatabaseService).Assembly)
@@ -88,13 +76,6 @@ public partial class DatabaseService : IStorageProvider
         using var scope = serviceProvider.CreateScope();
         var runner = scope.ServiceProvider.GetRequiredService<IMigrationRunner>();
         runner.MigrateUp();
-    }
-
-    private FreeSqlBuilder GetSqliteBuilder(string path)
-    {
-        var builder = new FreeSqlBuilder();
-        builder.UseConnectionString(DataType.Sqlite, $"Data Source={path}");
-        return builder;
     }
 
     private FreeSqlBuilder GetBuilder(DataType protocol, string connectionString)

@@ -62,7 +62,10 @@ public static class PlayerExtensions
     {
         Core.Scheduler.NextWorldUpdate(() =>
         {
-            var econGloves = player.PlayerPawn.EconGloves;
+            var pawn = player.PlayerPawn;
+            if (pawn == null) return;
+            var econGloves = pawn.EconGloves;
+            if (econGloves == null) return;
 
             econGloves.Initialized = true;
             var itemInLoadout =
@@ -77,10 +80,10 @@ public static class PlayerExtensions
             econGloves.EntityQuality = itemInLoadout.EntityQuality;
             StaticNativeService.Service.UpdateItemView.CallOriginal(
                 econGloves.Address, 0);
-            player.PlayerPawn.AcceptInput("SetBodygroup", "first_or_third_person,0");
+            pawn.AcceptInput("SetBodygroup", "first_or_third_person,0");
             Core.Scheduler.DelayBySeconds(0.2f, () =>
             {
-                player.PlayerPawn.AcceptInput("SetBodygroup", "first_or_third_person,1");
+                pawn.AcceptInput("SetBodygroup", "first_or_third_person,1");
             });
         });
     }

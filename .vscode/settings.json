@@ -1,0 +1,13 @@
+{
+  "files.exclude": {
+    "**/.git": true,
+    "**/.github": true,
+    "**/bin": true,
+    "**/obj": true,
+    "**/.vs": true,
+    "build": true,
+    "release-package": true,
+    "*.zip": true,
+    "**/*.user": true
+  }
+}

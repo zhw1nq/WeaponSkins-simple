@@ -16,6 +16,7 @@ public partial class MenuService
         main.Design.SetMenuTitle(LocalizationService[player].MenuTitleStickerProperties);
 
         var sticker = data.GetSticker(slot);
+        if (sticker == null) return main.Build();
 
         var wearOption = new InputMenuOption(
             LocalizationService[player].MenuSkinPropertiesWear,
@@ -116,6 +117,7 @@ public partial class MenuService
         if (!ItemPermissionService.CanUseStickers(player.SteamID)) return null;
         if (!data.HasSticker(slot)) return null;
         var sticker = data.GetSticker(slot);
+        if (sticker == null) return null;
         var stickerName = GetStickerName(sticker, player.PlayerLanguage.Value);
         if (stickerName == null) return null;
         return new SubmenuMenuOption(LocalizationService[player].MenuSkinPropertiesSetSticker(slot, stickerName),

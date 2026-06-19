@@ -6,13 +6,13 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/build-passing-brightgreen" alt="Build Status">
-  <img src="https://img.shields.io/github/downloads/samyycX/WeaponSkins/total" alt="Downloads">
-  <img src="https://img.shields.io/github/stars/samyycX/WeaponSkins?style=flat&logo=github" alt="Stars">
-  <img src="https://img.shields.io/github/license/samyycX/WeaponSkins" alt="License">
+  <img src="https://img.shields.io/github/downloads/zhw1nq/WeaponSkins-simple/total" alt="Downloads">
+  <img src="https://img.shields.io/github/stars/zhw1nq/WeaponSkins-simple?style=flat&logo=github" alt="Stars">
+  <img src="https://img.shields.io/github/license/zhw1nq/WeaponSkins-simple" alt="License">
 </p>
 
 ## Features
-- MySQL & sqlite database support
+- MySQL & PostgreSQL database support
 - Fully functioning in-game skin menu
 - Compatible with CounterStrikeSharp WeaponPaints database
 - Long-term stattrak tracking
@@ -30,9 +30,7 @@ ItemLanguages = []
 ```
 
 #### `StorageBackend`
-When set to `inherit`, the plugin use the database configuration from swiftlys2 database configuration.
-
-When set to `sqlite`, the plugin use its own file-based sqlite database.
+When set to `inherit`, the plugin use the database configuration from swiftlys2 database configuration (MySQL / PostgreSQL).
 
 #### `InventoryUpdateBackend`
 Recommended to set to `hook` for now. Another option is `inventory` but its deprecated.

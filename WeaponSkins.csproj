@@ -10,7 +10,7 @@
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <AssemblyName>WeaponSkins</AssemblyName>
     <OutputPath>$(MSBuildThisFileDirectory)build/</OutputPath>
-    <PublishDir>F:/cs2server/cs2/game/csgo/addons/swiftlys2/plugins/WeaponSkins</PublishDir>
+    <PublishDir Condition="'$(PublishDir)' == ''">$(MSBuildThisFileDirectory)build/publish/</PublishDir>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,9 +18,7 @@
     <PackageReference Include="FluentMigrator.Runner" Version="7.1.0" />
     <PackageReference Include="FreeSql" Version="3.5.303" />
     <PackageReference Include="FreeSql.Provider.MySql" Version="3.5.303" />
-    <PackageReference Include="FreeSql.Provider.Sqlite" Version="3.5.303" />
     <PackageReference Include="FreeSql.Provider.PostgreSQL" Version="3.5.303" />
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" ExcludeAssets="runtime" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.0" ExcludeAssets="runtime" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.0" ExcludeAssets="runtime" PrivateAssets="all" />
@@ -31,7 +29,7 @@
     <PackageReference Include="Tomlyn" Version="0.19.0" />
     <PackageReference Include="Tomlyn.Extensions.Configuration" Version="1.0.6" />
     <PackageReference Include="ValveKeyValue" Version="0.20.0.417" />
-    <PackageReference Include="SwiftlyS2.CS2" Version="1.1.4" ExcludeAssets="runtime" PrivateAssets="all" />
+    <PackageReference Include="SwiftlyS2.CS2" Version="*" ExcludeAssets="runtime" PrivateAssets="all" />
     <ProjectReference Include="WeaponSkins.Shared\WeaponSkins.Shared.csproj" />
   </ItemGroup>
 
